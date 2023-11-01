@@ -1,34 +1,43 @@
 import { useEffect, useState } from "react"
 import { obtener20Pokemon } from "../api"
-import { ButtonSiguiente } from "../componentes";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { CircularProgress } from "@mui/material";
+
 
 function Home() {
 
-    const pokemon_path = 'https://pokeapi.co/api/v2/pokemon/'
+    const [urlPaginaActual, setUrlPaginaActual] = useState('https://pokeapi.co/api/v2/pokemon/')
+    const [paginaActual, setPaginaActual] = useState();
 
-    const [pokemones, setPokemones] = useState([]);
-    const [url, setUrl] = useState([]);
+    useEffect(() => {
+        const asyncFn = async () => {
+            const paginasPokemon = await obtener20Pokemon(urlPaginaActual).then((res) => res.json())
+            setPaginaActual(paginasPokemon)
+        };
+        asyncFn();
 
+    }, [urlPaginaActual])
 
-    useEffect(async () => {
-        const paginasPokemon = await obtener20Pokemon(pokemon_path).then((res) => res.json())
-        setPokemones(paginasPokemon.results)
-        setUrl(paginasPokemon.next)
-        console.log(paginasPokemon.next)
-    }, [])
+    function onClick() {
+        setUrlPaginaActual(paginaActual.next)
+    }
 
     return (
         <>
             <div>
                 <h1>POKÈDEX</h1>
                 {
-                    pokemones.map(pokemon => <p>
-                        {pokemon.name}
-                    </p>)
+                    paginaActual === undefined
+                        ? <CircularProgress />
+                        :
+                        paginaActual.results.map(pokemon => <p>
+                            {pokemon.name}
+                        </p>)
                 }
-                <ButtonSiguiente 
-                urlSiguientePagina={url}
+                <ArrowForwardIosIcon
+                    onClick={onClick}
                 />
+
             </div>
         </>
     )
