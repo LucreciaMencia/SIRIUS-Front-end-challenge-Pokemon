@@ -1,0 +1,1 @@
+export {default as obtener20Pokemon } from './obtenerPokemon'
