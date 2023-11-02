@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-import { Detalle, Home } from './paginas/Index';
+import { Details, Home } from './paginas/Index';
 
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
       <Routes>
         
           <Route index element={<Home />} />
-          <Route path="/detalle" element={<Detalle />} />
+          {/* <Route path="/detalle" element={<Details />} /> */}
         
       </Routes>
     </BrowserRouter>

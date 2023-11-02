@@ -1,69 +1,45 @@
 import { useEffect, useState } from "react"
-import { obtener20Pokemon } from "../api"
-// import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { apiCall } from "../api/apiCall"
 import { CircularProgress } from "@mui/material";
 import Pagination from '@mui/material/Pagination';
+import { PokemonGrid } from "../componentes";
 
 
 function Home() {
 
-    const [urlPaginaActual, setUrlPaginaActual] = useState('https://pokeapi.co/api/v2/pokemon/')
-    const [paginaActual, setPaginaActual] = useState();
+    const [urlCurrentPage, setUrlCurrentPage] = useState('/pokemon/')
+    const [currentPage, setCurrentPage] = useState();
 
     useEffect(() => {
         const asyncFn = async () => {
-            const paginasPokemon = await obtener20Pokemon(urlPaginaActual).then((res) => res.json())
-            setPaginaActual(paginasPokemon)
-
+            const pokemonPage = await apiCall(urlCurrentPage)
+            setCurrentPage(pokemonPage)
         };
         asyncFn();
+    }, [urlCurrentPage])
 
-    }, [urlPaginaActual])
-
-    //numero de pagina x 20
-
-    function onChangePage(event, page){
-        let offset = page*20;
-        setUrlPaginaActual(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`)
+    function onChangePage(event, page) {
+        let offset = (page - 1) * 20;
+        setUrlCurrentPage(`/pokemon/?offset=${offset}&limit=20`)
     }
-
-    // function onClickForward() {
-    //     setUrlPaginaActual(paginaActual.next)
-    // }
-
-    // function onClickBack() {
-    //     setUrlPaginaActual(paginaActual.previous)
-    // }
 
     return (
         <>
             <div>
-                <h1>POKÈDEX</h1>
+                <h1>POKÉDEX</h1>
                 {
-                    paginaActual === undefined
+                    currentPage === undefined
                         ? <CircularProgress />
-                        :
-                        paginaActual.results.map(pokemon => <p>
-                            {pokemon.name}
-                        </p>)
+                        : <PokemonGrid
+                        pokemon_result={currentPage.results}
+                        />
                 }
-                <Pagination 
-                count={64} 
-                variant="outlined" 
-                color="secondary"
-                onChange={onChangePage}
+                <Pagination
+                    count={64}
+                    variant="outlined"
+                    color="secondary"
+                    onChange={onChangePage}
                 />
-
-
-
-                {/* <ArrowBackIosIcon
-                    onClick={onClickBack}
-                />
-                <ArrowForwardIosIcon
-                    onClick={onClickForward}
-                /> */}
-
             </div>
         </>
     )
