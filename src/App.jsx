@@ -8,8 +8,7 @@ function App() {
       <Routes>
         
           <Route index element={<Home />} />
-          {/* <Route path="/detalle" element={<Details />} /> */}
-        
+          <Route path="/details/:pokemon_id" element={<Details />} />        
       </Routes>
     </BrowserRouter>
   );

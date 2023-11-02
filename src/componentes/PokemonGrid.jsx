@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { GridCard } from './GridCard';
+import { useNavigate } from 'react-router'
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -12,19 +14,30 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+
 export function PokemonGrid(props) {
 
+  const navigate = useNavigate()
+
+  function onClickNavigate(pokemon_id) {
+    navigate(`/details/${pokemon_id}`)
+  }
+
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box
+      sx={{ flexGrow: 1 }}
+    >
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {
           props.pokemon_result.map(pokemon =>
 
-            <Grid key={pokemon.name} item xs={2} sm={4} md={4}>
+            <Grid key={pokemon.name} item xs={2} sm={4} md={4} 
+            onClick={() => onClickNavigate(pokemon.name)}>
               <GridCard
                 pokemon_name={pokemon.name}
                 pokemon_url={pokemon.url}
-              />
+              />              
             </Grid>
           )
         }

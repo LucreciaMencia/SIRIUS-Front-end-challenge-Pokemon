@@ -28,7 +28,8 @@ export function GridCard(props) {
             setUrlPokemonSprites(pokemonSprites)
         };
         asyncFn();
-    }, [])
+    }, [props.pokemon_url])
+
 
 
     const theme = useTheme();
