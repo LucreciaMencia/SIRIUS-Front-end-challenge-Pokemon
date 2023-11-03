@@ -4,6 +4,8 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { GridCard } from './GridCard';
 import { useNavigate } from 'react-router'
+import Masonry from '@mui/lab/Masonry';
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -26,23 +28,52 @@ export function PokemonGrid(props) {
 
   return (
     <Box
-      sx={{ flexGrow: 1 }}
-    >
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+      sx={{ flexGrow: 1 }}>
+      <Masonry columns={4} spacing={2}>
         {
           props.pokemon_result.map(pokemon =>
 
-            <Grid key={pokemon.name} item xs={2} sm={4} md={4} 
-            onClick={() => onClickNavigate(pokemon.name)}>
+            <Grid key={pokemon.name} item xs={2} sm={4} md={4}
+              onClick={() => onClickNavigate(pokemon.name)}>
               <GridCard
                 pokemon_name={pokemon.name}
                 pokemon_url={pokemon.url}
-              />              
+              />
             </Grid>
           )
         }
-      </Grid>
+      </Masonry>
     </Box>
   );
 }
 
+
+
+
+
+
+
+
+
+
+{/* <Box sx={{ width: 500, minHeight: 829 }}>
+      <Masonry columns={3} spacing={2}>
+        {itemData.map((item, index) => (
+          <div key={index}>
+            <Label>{index + 1}</Label>
+            <img
+              srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
+              src={`${item.img}?w=162&auto=format`}
+              alt={item.title}
+              loading="lazy"
+              style={{
+                borderBottomLeftRadius: 4,
+                borderBottomRightRadius: 4,
+                display: 'block',
+                width: '100%',
+              }}
+            />
+          </div>
+        ))}
+      </Masonry>
+    </Box> */}

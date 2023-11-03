@@ -38,7 +38,6 @@ function Home() {
                 <Pagination
                     count={64}
                     variant="outlined"
-                    color="secondary"
                     onChange={onChangePage}
                 />
             </div>
@@ -47,3 +46,4 @@ function Home() {
 }
 
 export default Home;
+

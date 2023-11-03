@@ -8,12 +8,17 @@ function Details(){
     const { pokemon_id } = useParams();
 
     const [pokemonData, setPokemonData] = useState();
+    const [moves, setMoves] = useState();
+    const [abilities, setAbilities] = useState();
+
 
     useEffect(() => {
         const asyncFn = async () => {
             const resObtained = await apiCall(`/pokemon/${pokemon_id}`)
             setPokemonData(resObtained)
-            console.log(resObtained.forms[0].url)
+            setMoves(resObtained.moves)
+            setAbilities(resObtained.abilities)
+
         };
         asyncFn();
     }, [])
@@ -27,6 +32,8 @@ function Details(){
             pokemonData && <DetailCard
             url_imagen_pokemon={pokemonData.forms[0].url}
             pokemon_name={pokemon_id}
+            pokemon_moves={moves}
+            pokemon_abilities={abilities}
             />
         }
         </>
