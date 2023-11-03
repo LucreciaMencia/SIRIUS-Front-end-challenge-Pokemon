@@ -23,6 +23,7 @@ function Home() {
         setUrlCurrentPage(`/pokemon/?offset=${offset}&limit=20`)
     }
 
+        
     return (
         <>
             <div>
